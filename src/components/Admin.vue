@@ -25,47 +25,62 @@
 	</div>
 </template>
 <script>
-import NewPizza from './NewPizza.vue'
+import NewPizza from "./NewPizza.vue";
 export default {
-	data () {
-		return {
-			getMenuItem:[]
-		}
-	},
-	components: {
-		'app-new-pizza':NewPizza
-	},
-	created () {
-		fetch('https://wd1053239395jirkbf.wilddogio.com/menu.json')
-			.then(res => {
-				return res.json()
-			})
-			.then(data =>{
-				//console.log(data)
-				let menuArry = []
-				for(let key in data){
-					// console.log(key)
-					//console.log(data[key])
-					data[key].id = key
-					menuArry.push(data[key])
-				}
-				this.getMenuItem = menuArry
-			})
-	},
-	methods: {
-		deleteDate(item){
-			fetch('https://wd1053239395jirkbf.wilddogio.com/menu/'+item.id+'/.json',{
-				method:"DELETE",
-				headers:{
-					'Content-type':'application/json'
-				}
-			})
-			.then(res => res.json())
-			.then(data => this.$router.push({name:'menuLink'}))
-			.catch(err=>console.log(err))
-		}
-	}
-	
-}
+  data() {
+    return {
+      //getMenuItem:[]
+    };
+  },
+  components: {
+    "app-new-pizza": NewPizza
+  },
+  computed: {
+    getMenuItem:{
+	  get(){
+		  return this.$store.state.menuItems;
+	  },
+	  set(){
+
+	  }
+    }
+  },
+  created() {
+    fetch("https://wd1053239395jirkbf.wilddogio.com/menu.json")
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        //console.log(data)
+        let menuArry = [];
+        for (let key in data) {
+          // console.log(key)
+          //console.log(data[key])
+          data[key].id = key;
+          menuArry.push(data[key]);
+        }
+		// 数据同步
+		this.$store.commit('setMenuItems',menuArry)
+      });
+  },
+  methods: {
+    deleteDate(item) {
+      fetch(
+        "https://wd1053239395jirkbf.wilddogio.com/menu/" + item.id + "/.json",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json"
+          }
+        }
+      )
+        .then(res => res.json())
+        .then(data => {
+			this.$store.commit('removeMenuItems',item)
+		})
+        .catch(err => console.log(err));
+    }
+  }
+};
 </script>
 

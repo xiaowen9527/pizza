@@ -5,7 +5,14 @@ import App from './App'
 import router from './router'
 import axios from "axios";
 
+import {
+  store
+} from "./store/store.js";
+
 axios.defaults.baseURL = 'https://wd1053239395jirkbf.wilddogio.com/'
+
+//在任何组件中都可以正常使用axios
+Vue.prototype.http = axios
 
 
 Vue.config.productionTip = false
@@ -14,6 +21,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

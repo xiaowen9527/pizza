@@ -46,64 +46,24 @@
 					</tbody>
 				</table>
 				<p>总价：{{total+ 'RMB'}}</p>
-				<button class="btn btn-succesee btn-block">提交</button>
+				<button class="btn btn-success btn-block">提交</button>
 			</div>
 			<div v-else>购物车没有商品</div>
 		</div>
 	</div>  
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
 		baskets:[],
-      getMenuItems: {
-        1: {
-          name: "榴莲pizza",
-          description: "这是喜欢吃榴莲朋友的最佳选择",
-          options: [
-            {
-              size: 9,
-              price: 38
-            },
-            {
-              size: 12,
-              price: 48
-            }
-          ]
-        },
-        2: {
-          name: "芝士pizza",
-          description: "芝士杀手,浓浓的芝士丝, 食欲瞬间爆棚",
-          options: [
-            {
-              size: 9,
-              price: 38
-            },
-            {
-              size: 12,
-              price: 48
-            }
-          ]
-        },
-        3: {
-          name: "夏威夷pizza",
-          description: "众多人的默认选择",
-          options: [
-            {
-              size: 9,
-              price: 36
-            },
-            {
-              size: 12,
-              price: 46
-            }
-          ]
-        }
-      }
     };
   },
 	computed: {
+		getMenuItems(){
+			return this.$store.state.menuItems
+		},
 		total(){
 			let totalCost = 0
 			for(let index in this.baskets){
@@ -113,7 +73,34 @@ export default {
 			return totalCost
 		}
 	},
+	created () {
+		this.fetchData()
+	},
   methods: {
+		fetchData(){
+			// fetch('https://wd1053239395jirkbf.wilddogio.com/menu.json')
+			// 	.then(res=>{
+			// 		return res.json()
+			// 	})
+			// 	.then(data=>{
+			// 		console.log(data)
+			// 	})
+			
+			// axios.get('menu.json')
+			// 	.then(res=>{
+			// 		this.getMenuItems = res.data
+			// 	})
+
+			// this.http.get('menu.json')
+			// 	.then(res=>{
+			// 		this.getMenuItems = res.data
+			// 	})
+		
+			this.http.get("menu.json")
+                 .then(res => this.$store.commit("setMenuItems",res.data))
+				
+			
+		},
 	  addToBasket(item,option){
 			let basket = {
 			  name:item.name,

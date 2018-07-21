@@ -56,32 +56,38 @@ export default {
   methods: {
     addMenuItem() {
       //console.log(this.newPizza)
-    	let data = {
-        	name: this.newPizza.name,
-			description: this.newPizza.description,
-			options: [
-				{
-					size: this.newPizza.size1,
-					price: this.newPizza.price1
-				},
-				{
-					size: this.newPizza.size2,
-					price: this.newPizza.price2
-				}
-			]
-	  	}
-		//axios vue-resource
-		fetch('https://wd1053239395jirkbf.wilddogio.com/menu.json',{
-			method:'POST',
-			headers:{
-				"Content-type":'application/json'
-			},
-			body:JSON.stringify(data)
-		})
-			.then(res => res.json())
-			.then(data => this.$router.push({name:'menuLink'}))
-			
+      let data = {
+        name: this.newPizza.name,
+        description: this.newPizza.description,
+        options: [
+          {
+            size: this.newPizza.size1,
+            price: this.newPizza.price1
+          },
+          {
+            size: this.newPizza.size2,
+            price: this.newPizza.price2
+          }
+        ]
+      };
+      //axios vue-resource
+      // fetch('https://wd1053239395jirkbf.wilddogio.com/menu.json',{
+      // 	method:'POST',
+      // 	headers:{
+      // 		"Content-type":'application/json'
+      // 	},
+      // 	body:JSON.stringify(data)
+      // })
+      // 	.then(res => res.json())
+      // 	.then(data => {
+			// 		console.log(data)
+			// 	})
 
+      this.http.post("menu.json", data)
+        .then(res => {
+					console.log(res)
+					this.$store.commit("pushToMenuItems", data)
+				});
     }
   }
 };
