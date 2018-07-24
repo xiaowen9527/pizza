@@ -23,4 +23,6 @@ export const userStatus = (state, user) => {
     state.currentUser = null
     state.isLogin = false
   }
+
+  
 }
