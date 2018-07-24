@@ -27,10 +27,16 @@
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<li>
-					<router-link class="nav-link" :to="{name:'loginLink'}">登录</router-link>
+					<router-link v-show="!isLogin" class="nav-link" :to="{name:'loginLink'}">登录</router-link>
+				</li>
+				<li class="nav-link">
+					{{currentUser}}
 				</li>
 				<li>
-					<router-link class="nav-link" :to="{name:'registerLink'}">注册</router-link>
+					<router-link v-show="isLogin" class="nav-link" :to="{name:'loginLink'}">退出</router-link>
+				</li>
+				<li>
+					<router-link v-show="!isLogin" class="nav-link" :to="{name:'registerLink'}">注册</router-link>
 				</li>
 
 			</ul>
@@ -40,9 +46,17 @@
 </template>
 <script>
 export default {
-	data () {
-		return {
-			homeLink:'/'
+	// data () {
+	// 	return {
+	// 		homeLink:'/'
+	// 	}
+	// }
+	computed: {
+		currentUser(){
+			return this.$store.getters.currentUser
+		},
+		isLogin(){
+			return this.$store.getters.isLogin
 		}
 	}
 }

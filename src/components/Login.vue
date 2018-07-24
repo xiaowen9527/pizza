@@ -30,6 +30,10 @@ export default {
 			
 		}
 	},
+	//组件内的守卫
+	beforeRouteEnter:(to, from, next) => {
+		next(vm => vm.$store.dispatch('setUser',null))
+	},
 	methods: {
 		onSubmit(){
 			axios.get('/users.json')
@@ -51,9 +55,11 @@ export default {
 					//判断result的长度是否大于0
 
 					if(result !=null && result.length>0){
+						this.$store.dispatch('setUser',result[0].email)
 						this.$router.push({name:'homeLink'})
 					}else{
 						alert('帐号或密码错误');
+						this.$store.dispatch('setUser',null)
 					}
 
 				})

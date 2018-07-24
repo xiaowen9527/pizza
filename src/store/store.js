@@ -1,39 +1,22 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import * as actions from "./actions";
+import * as getters from "./getters";
+import * as mutations from "./mutations";
+
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
 	state: {
 		//设置属性
-		menuItems:{}
+		menuItems:{},
+		currentUser:null,
+		isLogin:false
 	},
-	getters: {
-		//获取属性状态
-
-	},
-	mutations: {
-		//改变属性状态
-		setMenuItems(state,data){
-			state.menuItems = data
-		},
-		//将匹配到对象，在menuItems中删除
-		removeMenuItems(state,data){
-			state.menuItems.forEach((item,index) => {
-				if(item === data){
-					state.menuItems.splice(index,1)
-				}
-			});
-		},
-		//将新添加的pizza push到menuItems中
-		pushToMenuItems(state,data){
-			state.menuItems.push(data)
-		}
-	},
-	actions: {
-		//应用属性
-
-	}
+	getters,
+	mutations,
+	actions
 
 
 })
